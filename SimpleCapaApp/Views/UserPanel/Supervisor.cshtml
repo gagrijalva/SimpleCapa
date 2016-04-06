@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Supervisor";
+}
+
+<h2>Supervisor</h2>
+
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Action("SupervisorCapas", "Capas", new { id = User.Identity.GetUserId()})
+    </div>
+</div>
