@@ -4,107 +4,65 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Capa</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Supervisor
-        </dt>
+    <h1>Capa Details</h1>
+    <br/><br />
 
-        <dd>
-            @Html.DisplayFor(model => model.Supervisor.Email)
-        </dd>
+    @{
+        switch (Model.Step)
+        {
+            case 2:
+                @Html.Action("ContainmentTasks", "Steps", new { CapaId = Model.Id })
+                break;
+            case 3:
+                @Html.Action("Containment", "Steps", new { CapaId = Model.Id })
+                break;
+            case 4:
+                @Html.Action("ContainmentTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("CorrectionTasks", "Steps", new { CapaId = Model.Id })
+                break;
+            case 5:
+                @Html.Action("ContainmentTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("Correction", "Steps", new { CapaId = Model.Id })
+                break;
+            case 6:
+                @Html.Action("ContainmentTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("CorrectionTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("VerifyCapa", "Capas", new { CapaId = Model.Id })
+                break;
+            case 7:
+                @Html.Action("ContainmentTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("CorrectionTasksSummary", "Tasks", new { CapaId = Model.Id })
+                <br />
+                <hr />
+                <br />
+                @Html.Action("FollowUpCapa", "Capas", new { CapaId = Model.Id })
+                break;
+        }
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DueDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
-
-    </dl>
+    
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Indentification Tasks</h2>
-        @Html.Action("IdentificationTasks" , "Tasks" , new { id = Model.Id}) 
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Investigation Tasks</h2>
-        @Html.Action("InvestigationTasks", "Tasks", new { id = Model.Id })
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Plan Tasks</h2>
-        @Html.Action("PlanTasks", "Tasks", new { id = Model.Id })
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Correction Tasks</h2>
-        @Html.Action("CorrectionTasks", "Tasks", new { id = Model.Id })
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Implementation Tasks</h2>
-        @Html.Action("ImplementationTasks", "Tasks", new { id = Model.Id }) 
-    </div>
-
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Prevention Tasks</h2>
-        @Html.Action("PreventionTasks", "Tasks", new { id = Model.Id }) 
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h2>Verification Tasks</h2>
-        @Html.Action("VerifyTasks", "Tasks", new { id = Model.Id }) 
-    </div>
-</div>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

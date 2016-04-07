@@ -21,7 +21,7 @@ namespace SimpleCapaApp.Controllers
             return View(tasks.ToList());
         }
 
-        public ActionResult IdentificationTasks(int id)
+        /*public ActionResult IdentificationTasks(int id)
         {
 
             return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Identification).ToList());
@@ -62,7 +62,7 @@ namespace SimpleCapaApp.Controllers
 
             return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Verify).ToList());
         }
-
+        */
 
         public ActionResult OverDueTasks()
         {
@@ -90,10 +90,11 @@ namespace SimpleCapaApp.Controllers
         }
 
         // GET: Tasks/Create
-        public ActionResult Create()
+        public ActionResult Create(int CapaId, int CapaStep)
         {
-            ViewBag.CapaId = new SelectList(db.Capas, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("ff821b87-9dc5-4b74-ba42-30a5fa1df290")), "Id", "Email");
+            ViewBag.CapaId = CapaId;
+            ViewBag.CapaStep = CapaStep;
+            ViewBag.UserId = new SelectList(db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("b7100b03-d6b6-409d-b5e3-b0b2c4e0235a")), "Id", "Email");
             return View();
         }
 
@@ -102,18 +103,19 @@ namespace SimpleCapaApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CapaId,Status,Step,CreationDate,DueDate")] Task task)
+        public ActionResult Create([Bind(Include = "Name,Description,UserId,DueDate,CapaId,CapaStep")] Task task)
         {
             if (ModelState.IsValid)
             {
+                task.Status = Status.New;
+                task.CreationDate = DateTime.Now;
                 db.Tasks.Add(task);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.CapaId = new SelectList(db.Capas, "Id", "Name", task.CapaId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", task.UserId);
-            return View(task);
+            return Content(null);
         }
 
         // GET: Tasks/Edit/5
@@ -175,6 +177,18 @@ namespace SimpleCapaApp.Controllers
             db.Tasks.Remove(task);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ContainmentTasksSummary(int CapaId)
+        {
+            var tasks = db.Tasks.Where(t => t.CapaId == CapaId && t.CapaStep == 2).Include(t => t.Capa).Include(t => t.Technitian).Include(t => t.Files);
+            return View(tasks.ToList());
+        }
+
+        public ActionResult CorrectionTasksSummary(int CapaId)
+        {
+            var tasks = db.Tasks.Where(t => t.CapaId == CapaId && t.CapaStep == 4).Include(t => t.Capa).Include(t => t.Technitian).Include(t => t.Files);
+            return View(tasks.ToList());
         }
 
         protected override void Dispose(bool disposing)

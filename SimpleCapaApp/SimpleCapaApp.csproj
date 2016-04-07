@@ -201,12 +201,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\StepsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UserPanelController.cs" />
+    <Compile Include="CusClasses\InitTaskInfo.cs" />
     <Compile Include="CustomFilters\AuthLogAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InitTaskInfor.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Capa.cs" />
     <Compile Include="Models\File.cs" />
@@ -296,18 +299,22 @@
     <Content Include="Views\Tasks\Edit.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\OverdueTasks.cshtml" />
-    <Content Include="Views\Tasks\IdentificationTasks.cshtml" />
-    <Content Include="Views\Tasks\InvestigationTasks.cshtml" />
-    <Content Include="Views\Tasks\PlanTasks.cshtml" />
     <Content Include="Views\Tasks\CorrectionTasks.cshtml" />
-    <Content Include="Views\Tasks\ImplementationTasks.cshtml" />
-    <Content Include="Views\Tasks\PreventionTasks.cshtml" />
-    <Content Include="Views\Tasks\VerifyTasks.cshtml" />
     <Content Include="Views\Files\Index.cshtml" />
     <Content Include="Views\UserPanel\Administrator.cshtml" />
     <Content Include="Views\UserPanel\Supervisor.cshtml" />
     <Content Include="Views\UserPanel\Technitian.cshtml" />
     <Content Include="Views\Capas\SupervisorCapas.cshtml" />
+    <Content Include="Views\Capas\Prueba.cshtml" />
+    <Content Include="Views\Steps\ContainmentTasks.cshtml" />
+    <Content Include="Views\Capas\_CreateTask.cshtml" />
+    <Content Include="Views\Steps\Containment.cshtml" />
+    <Content Include="Views\Steps\CorrectionTasks.cshtml" />
+    <Content Include="Views\Tasks\ContainmentTasksSummary.cshtml" />
+    <Content Include="Views\Steps\Correction.cshtml" />
+    <Content Include="Views\Tasks\CorrectionTasksSummary.cshtml" />
+    <Content Include="Views\Capas\VerifyCapa.cshtml" />
+    <Content Include="Views\Capas\FollowUpCapa.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

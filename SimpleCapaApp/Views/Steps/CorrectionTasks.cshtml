@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SimpleCapaApp.Models.Task>
+
+<h3>Correction Tasks</h3>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Task Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Technitian
+        </th>
+        <th>
+            Due Date
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Technitian.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td></td>
+        </tr>
+    }
+    @Html.Action("Create", "Tasks", new { CapaId = ViewBag.CapaId, CapaStep = ViewBag.CapaStep })
+
+
+
+</table>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("AssignTasks", "FinishCorrectionTasks", "Steps", new { CapaId = ViewBag.CapaId }, null)
+    </div>
+</div>

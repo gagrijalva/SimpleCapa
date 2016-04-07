@@ -14,21 +14,20 @@ namespace SimpleCapaApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
         [DisplayName("Task Name")]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(100)]
         public string Description { get; set; }
 
-        [DisplayName("Technitian")]
+        [Required]
+        [DisplayName("Techitian")]
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser Technitian { get; set; }
 
-        [DisplayName("Capa Name")]
+        [Required]
         public int CapaId { get; set; }
 
         [ForeignKey("CapaId")]
@@ -38,11 +37,10 @@ namespace SimpleCapaApp.Models
         public Status Status { get; set; }
 
         [Required]
-        public Step Step { get; set; }
+        public int CapaStep { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayName("Creation Date")]
         public DateTime CreationDate { get; set; }
 
         [Required]
@@ -57,18 +55,18 @@ namespace SimpleCapaApp.Models
     public enum Status
     {
         New,
-        Started,
+        Pending,
         Completed
     }
 
-    public enum Step
+    /*public enum Step
     {
         Identification,
-        Investigation,
-        Plan,
+        ContaintmentTasks,
+        Containtment,
+        CorrectionTasks,
         Correction,
-        Implementation,
-        Prevention,
-        Verify
-    }
+        Verification,
+        Finished
+    }*/
 }

@@ -17,15 +17,12 @@ namespace SimpleCapaApp.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Capas
-        [AuthLog(Roles = "Administrador")]
-       // [AuthLog(Roles = "Supervisor")]
         public ActionResult Index()
         {
             var capas = db.Capas.Include(c => c.Supervisor);  
             return View(capas.ToList());
         }
 
-        [AuthLog(Roles = "Administrador")]
        // [AuthLog(Roles = "Supervisor")]
         public ActionResult SupervisorCapas(string id)
         {
@@ -34,7 +31,6 @@ namespace SimpleCapaApp.Controllers
 
 
         // GET: Capas/Details/5
-        [AuthLog(Roles = "Administrador")]
        // [AuthLog(Roles = "Supervisor")]
         public ActionResult Details(int? id)
         {
@@ -55,8 +51,7 @@ namespace SimpleCapaApp.Controllers
         //[AuthLog(Roles = "Supervisor")]
         public ActionResult Create()
         {
-
-            ViewBag.UserId = new SelectList(db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2b520cfc-6aa7-455f-b71f-2451b3cfca74")) ,"Id", "Email");
+            ViewBag.UserId = new SelectList(db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("d78386b1-92f3-4d53-b171-ea9e8ba68e0e")) ,"Id", "Email");
             return View();
         }
 
@@ -71,6 +66,7 @@ namespace SimpleCapaApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                capa.Step = 2;
                 db.Capas.Add(capa);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -137,8 +133,6 @@ namespace SimpleCapaApp.Controllers
         // POST: Capas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [AuthLog(Roles = "Administrador")]
-        [AuthLog(Roles = "Supervisor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Capa capa = db.Capas.Find(id);
@@ -146,6 +140,29 @@ namespace SimpleCapaApp.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult VerifyCapa(int CapaId)
+        {
+            var capa = db.Capas.Find(CapaId);
+            return View(capa);
+        }
+
+
+        public ActionResult FinishCapaVerification(int CapaId)
+        {
+            var capa = db.Capas.Find(CapaId);
+            capa.Status = capa.Status + 1;
+            capa.Step = capa.Step + 1;
+            db.SaveChanges();
+            return RedirectToAction("Details", "Capas", new { id = CapaId });
+        }
+
+        public ActionResult FollowUpCapa(int CapaId)
+        {
+            var capa = db.Capas.Find(CapaId);
+            return View(capa);
+        }
+        
 
         protected override void Dispose(bool disposing)
         {

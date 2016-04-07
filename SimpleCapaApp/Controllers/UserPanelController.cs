@@ -22,19 +22,19 @@ namespace SimpleCapaApp.Controllers
             
             return View();
         }
-        [AuthLog(Roles = "Administrador")]
+
+
         public ActionResult Administrator()
         {
             return View();
         }
 
-        [AuthLog(Roles = "Supervisor")]
+
         public ActionResult Supervisor()
         {
             return View();
         }
-
-        [AuthLog(Roles = "Technitian")]
+        
         public ActionResult Technitian()
         {
             return View();

@@ -27,6 +27,10 @@ namespace SimpleCapaApp.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser Supervisor { get; set; }
 
+        public int Step { get; set; }
+
+        public CapaStatus Status { get; set; }
+
         public virtual ICollection<Task> Tasks { get; set; }
 
         [Required]
@@ -39,6 +43,12 @@ namespace SimpleCapaApp.Models
         [DisplayName("Due Date")]
         public DateTime DueDate { get; set; }
 
+    }
+
+    public enum CapaStatus
+    {
+        InProgress,
+        Finished
     }
 
 }
