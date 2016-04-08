@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@using Microsoft.AspNet.Identity
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,22 +18,34 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("SimpleCapaApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    @Html.ActionLink("SimpleCapaApp", "Administrator", "UserPanel", new { UserId = User.Identity.GetUserId() }, new { @class = "navbar-brand" })
+                }
+
+                else if (ViewContext.HttpContext.User.IsInRole("Supervisor"))
+                {
+                    @Html.ActionLink("SimpleCapaApp", "Supervisor", "UserPanel", new { UserId = User.Identity.GetUserId() }, new { @class = "navbar-brand" })
+                }
+
+                else if (ViewContext.HttpContext.User.IsInRole("Technitian"))
+                {
+                    @Html.ActionLink("SimpleCapaApp", "Technitian", "UserPanel", new { UserId = User.Identity.GetUserId() }, new { @class = "navbar-brand" })
+                }
+
+                else
+                {
+                    @Html.ActionLink("SimpleCapaApp", "Index", "Home", new { UserId = User.Identity.GetUserId() }, new { @class = "navbar-brand" })
+                }
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    
+
                     @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
                     {
-                        <li>@Html.ActionLink("Capa", "Index", "Capas")</li>
+                        <li>@Html.ActionLink("Role", "Index", "Role")</li>
                     }
-
-                    @if (ViewContext.HttpContext.User.IsInRole("Administrador") || ViewContext.HttpContext.User.IsInRole("Supervisor"))
-                    {
-                        <li>@Html.ActionLink("Tasks", "Index", "Tasks")</li>
-                    }
-
-                    <li>@Html.ActionLink("Role", "Index", "Role")</li>
                     
                 </ul>
                 @Html.Partial("_LoginPartial")

@@ -18,7 +18,9 @@
         <th>
             Due Date
         </th>
-        <th></th>
+        <th>
+            Attached Files
+        </th>
     </tr>
     @foreach (var item in Model)
     {
@@ -35,7 +37,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
-            <td></td>
+            <td>
+                <ol>
+                    @foreach (var f in item.Files)
+                    {
+                        <li><a href="/files/GetFile/@f.Id">@f.FileName</a></li>
+                    }
+                </ol>
+            </td>
         </tr>
     }
 </table>

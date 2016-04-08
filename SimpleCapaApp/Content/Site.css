@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.button {
+    font: bold 20px Arial;
+    text-decoration: none;
+}
+
+.disabled {
+    pointer-events: none;
+}

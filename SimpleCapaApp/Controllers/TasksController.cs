@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SimpleCapaApp.Models;
+using WebApp.Utilities;
+using System.Net.Mail;
 
 namespace SimpleCapaApp.Controllers
 {
@@ -21,48 +23,6 @@ namespace SimpleCapaApp.Controllers
             return View(tasks.ToList());
         }
 
-        /*public ActionResult IdentificationTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Identification).ToList());
-        }
-
-        public ActionResult InvestigationTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Investigation).ToList());
-        }
-
-        public ActionResult PlanTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Plan).ToList());
-        }
-
-        public ActionResult CorrectionTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Correction).ToList());
-        }
-
-        public ActionResult ImplementationTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Implementation).ToList());
-        }
-
-        public ActionResult PreventionTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Prevention).ToList());
-        }
-
-        public ActionResult VerifyTasks(int id)
-        {
-
-            return View(db.Tasks.Where(c => c.CapaId == id && c.Step == Step.Verify).ToList());
-        }
-        */
 
         public ActionResult OverDueTasks()
         {
@@ -115,7 +75,7 @@ namespace SimpleCapaApp.Controllers
 
             ViewBag.CapaId = new SelectList(db.Capas, "Id", "Name", task.CapaId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", task.UserId);
-            return Content(null);
+            return RedirectToAction("Details", "Capas", new { id = task.CapaId });
         }
 
         // GET: Tasks/Edit/5
@@ -189,6 +149,22 @@ namespace SimpleCapaApp.Controllers
         {
             var tasks = db.Tasks.Where(t => t.CapaId == CapaId && t.CapaStep == 4).Include(t => t.Capa).Include(t => t.Technitian).Include(t => t.Files);
             return View(tasks.ToList());
+        }
+
+        public ActionResult FinishTask(int TaskId, string TechnitianId)
+        {
+            var task = db.Tasks.Find(TaskId);
+            var supervisorEmail = task.Capa.Supervisor.Email;
+            var technitianEmail = task.Technitian.Email;
+            task.Status = Status.Completed;
+            string emailMessage = technitianEmail + " has completed a task. Details: \n" +
+                "TaskId: " + TaskId + "\n" +
+                "CapaId: " + task.CapaId + "\n" +
+                "Due Date: " + task.DueDate;
+
+            db.SaveChanges();
+            MailSender.Send("Completed Task", emailMessage  , new MailAddress(supervisorEmail));
+            return RedirectToAction("Technitian", "UserPanel", new { UserId = TechnitianId });
         }
 
         protected override void Dispose(bool disposing)

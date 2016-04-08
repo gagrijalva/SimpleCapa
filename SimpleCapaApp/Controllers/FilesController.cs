@@ -23,10 +23,15 @@ namespace SimpleCapaApp.Controllers
 
         public ActionResult Save(FormCollection formCollection)
         {
+
+            string TechnitianId = Request.Form["TechnitianId"];
+
+
             if (Request != null)
             {
                 HttpPostedFileBase file = Request.Files["UploadedFile"];
                 string TaskId = Request.Form["TaskId"];
+                
 
                 if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
                 {
@@ -51,7 +56,7 @@ namespace SimpleCapaApp.Controllers
 
             var files = db.Files.ToList();
 
-            return RedirectToAction("Index", "Tasks", null);
+            return RedirectToAction("Technitian", "UserPanel", new { UserId = TechnitianId } );
 
         }
 

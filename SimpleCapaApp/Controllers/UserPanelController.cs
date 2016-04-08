@@ -24,20 +24,23 @@ namespace SimpleCapaApp.Controllers
         }
 
 
-        public ActionResult Administrator()
+        public ActionResult Administrator(string UserId)
         {
-            return View();
+            var capas = db.Capas ;
+            return View(capas.ToList());
         }
 
 
-        public ActionResult Supervisor()
+        public ActionResult Supervisor(string UserId)
         {
-            return View();
+            var capas = db.Capas.Where(c => c.UserId == UserId);
+            return View(capas.ToList());
         }
         
-        public ActionResult Technitian()
+        public ActionResult Technitian(string UserId)
         {
-            return View();
+            var tasks = db.Tasks.Where(c => c.UserId == UserId);
+            return View(tasks.ToList());
         }
     }
 }

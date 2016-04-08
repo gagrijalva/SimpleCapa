@@ -23,7 +23,7 @@
             Due Date
         </th>
         <th>
-
+            Attached Files
         </th>
     </tr>
     @foreach (var item in Model)
@@ -44,6 +44,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
+            <td>
+                <ol>
+                    @foreach (var f in item.Files)
+                    {
+                        <li><a href="/files/GetFile/@f.Id">@f.FileName</a></li>
+                    }
+                </ol>
+            </td>
         </tr>
     }
 
@@ -53,7 +61,7 @@
 @if (ViewBag.CompletedStatus)
 {
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="button">
             @Html.ActionLink("Finish Tasks", "FinishCorrection", "Steps", new { CapaId = ViewBag.CapaId }, null)
         </div>
     </div>

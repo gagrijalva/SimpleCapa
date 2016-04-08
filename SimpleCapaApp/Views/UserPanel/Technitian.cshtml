@@ -1,7 +1,96 @@
-﻿
+﻿@model IEnumerable<SimpleCapaApp.Models.Task>
 @{
-    ViewBag.Title = "Technitian";
+    ViewBag.Title = "Capas";
 }
+<h2>Managing Tasks</h2>
 
-<h2>Technitian</h2>
 
+<table class="table">
+    <tr>
+        <th>
+            Task Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+           Capa
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Due Date
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Attached File
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capa.Name)
+            </td>
+            <td>
+                @if (item.CapaStep == 2)
+                {
+                    <div>Containment</div>
+                }
+
+                else if (item.CapaStep == 4)
+                {
+                    <div>Corrective</div>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <ol>
+                    @foreach (var f in item.Files)
+                    {
+                        <li><a href="/files/GetFile/@f.Id">@f.FileName</a></li>
+                    }
+                </ol>
+
+                <hr />
+
+                @using (Html.BeginForm("Save", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        <input type="file" name="UploadedFile" />
+                        <input type="hidden" name="TaskId" value="@item.Id" />
+                        <input type="hidden" name="TechnitianId" value="@item.Technitian.Id" />
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input class="btn btn-primary" type="submit" name="Submit" value="Submit" />
+                    </div>
+                }
+            </td>
+            <td>
+                @*Html.ActionLink("Completed", null, null)*@
+                @if (item.Status != SimpleCapaApp.Models.Status.Completed)
+                {
+                    @Html.ActionLink("Comple Task", "FinishTask", "Tasks", new { TaskId = item.Id, TechnitianId = item.Technitian.Id }, null)
+                }
+            </td>
+        </tr>
+    }
+</table>

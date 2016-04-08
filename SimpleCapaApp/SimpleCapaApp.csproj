@@ -218,6 +218,7 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\MailSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Capa.mdf" />

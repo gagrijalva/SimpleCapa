@@ -82,17 +82,21 @@ namespace SimpleCapaApp.Controllers
             {
                 case SignInStatus.Success:
                     ApplicationUser user = UserManager.FindByEmail(model.Email);
-                    if (UserManager.IsInRole(user.Id, "Administrador"))
+                    if (UserManager.IsInRole(user.Id, "Administrator"))
                     {
-                        return RedirectToAction("Administrator", "UserPanel", new { area = "Admin" });
+                        return RedirectToAction("Administrator", "UserPanel", new { UserId = user.Id });
                     }
                     else if (UserManager.IsInRole(user.Id, "Supervisor"))
                     {
-                        return RedirectToAction("Supervisor", "UserPanel", new { id = user.Id });
+                        return RedirectToAction("Supervisor", "UserPanel", new { UserId = user.Id });
+                    }
+                    else if ((UserManager.IsInRole(user.Id, "Technitian")))
+                    {
+                        return RedirectToAction("Technitian", "UserPanel", new { UserId = user.Id });
                     }
                     else
                     {
-                        return RedirectToAction("Technitian", "UserPanel", new { area = "Admin" });
+                        return RedirectToAction("Index", "Home", null);
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
